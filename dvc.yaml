@@ -1,0 +1,28 @@
+stages:
+  prepare:
+    cmd: python src/data/prepare.py
+    deps:
+    - data/raw
+    - src/data/prepare.py
+    outs:
+    - data/processed
+
+  train:
+    cmd: python src/models/train.py
+    deps:
+    - data/processed
+    - src/models/train.py
+    params:
+    - models.learning_rate
+    - models.n_estimators
+    outs:
+    - artifacts/model.pkl
+
+  evaluate:
+    cmd: python src/models/evaluate.py
+    deps:
+    - artifacts/model.pkl
+    - data/processed/test
+    - src/models/evaluate.py
+    metrics:
+    - metrics.json

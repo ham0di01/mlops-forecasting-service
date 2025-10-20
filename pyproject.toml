@@ -1,0 +1,64 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mlops-forecasting-service"
+version = "0.1.0"
+description = "Spare-Parts Demand Forecasting as a Service"
+authors = [{name = "MLOps Team", email = "team@example.com"}]
+license = {text = "MIT"}
+readme = "README.md"
+requires-python = ">=3.9"
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+]
+
+dependencies = [
+    "fastapi",
+    "uvicorn[standard]",
+    "mlflow",
+    "dvc[git]",
+    "scikit-learn",
+    "lightgbm",
+    "xgboost",
+    "prophet",
+    "pandas",
+    "numpy",
+    "pydantic",
+    "pytest",
+    "pandera",
+    "black",
+    "isort",
+    "flake8",
+    "bandit",
+    "pre-commit",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest-cov",
+    "httpx",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.black]
+line-length = 88
+target-version = ['py39']
+
+[tool.isort]
+profile = "black"
+line_length = 88
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = "-q"

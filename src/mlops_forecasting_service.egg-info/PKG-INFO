@@ -1,0 +1,74 @@
+Metadata-Version: 2.4
+Name: mlops-forecasting-service
+Version: 0.1.0
+Summary: Spare-Parts Demand Forecasting as a Service
+Author-email: MLOps Team <team@example.com>
+License: MIT
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: fastapi
+Requires-Dist: uvicorn[standard]
+Requires-Dist: mlflow
+Requires-Dist: dvc[git]
+Requires-Dist: scikit-learn
+Requires-Dist: lightgbm
+Requires-Dist: xgboost
+Requires-Dist: prophet
+Requires-Dist: pandas
+Requires-Dist: numpy
+Requires-Dist: pydantic
+Requires-Dist: pytest
+Requires-Dist: pandera
+Requires-Dist: black
+Requires-Dist: isort
+Requires-Dist: flake8
+Requires-Dist: bandit
+Requires-Dist: pre-commit
+Provides-Extra: dev
+Requires-Dist: pytest-cov; extra == "dev"
+Requires-Dist: httpx; extra == "dev"
+Dynamic: license-file
+
+# Spare-Parts Demand Forecasting as a Service
+
+An end-to-end MLOps demo that forecasts spare-parts demand with prediction intervals.
+
+## Quickstart
+```bash
+make setup
+make lint
+pytest -q
+```
+
+## Project Structure
+
+```
+mlops-forecasting-service/
+├── data/
+│   ├── raw/           # Raw data files
+│   └── processed/     # Processed data files
+├── src/
+│   ├── data/          # Data processing modules
+│   ├── models/        # Model training and inference
+│   ├── serve/         # API serving endpoints
+│   └── utils/         # Utility functions
+├── tests/             # Test files
+├── artifacts/         # Model and pipeline artifacts
+└── .github/workflows/ # CI/CD pipelines
+```
+
+## Features
+
+- 🤖 Machine learning models (LightGBM, XGBoost, Prophet)
+- 📊 Prediction intervals for uncertainty quantification
+- 🚀 FastAPI service for model serving
+- 🔄 MLflow for experiment tracking
+- 📦 DVC for data versioning
+- ✅ Automated testing and linting
+- 🐳 Docker containerization
