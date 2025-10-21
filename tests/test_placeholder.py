@@ -5,12 +5,12 @@ def test_placeholder():
 
 def test_imports():
     """Test that key dependencies can be imported."""
-    import pandas
-    import numpy
-    import sklearn
     import fastapi
     import mlflow
-    
+    import numpy
+    import pandas
+    import sklearn
+
     assert pandas.__version__ is not None
     assert numpy.__version__ is not None
     assert sklearn.__version__ is not None

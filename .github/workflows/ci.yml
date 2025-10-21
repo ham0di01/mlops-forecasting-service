@@ -12,4 +12,12 @@ jobs:
       - run: pip install -U pip
       - run: pip install -r requirements.txt || pip install -e .
       - run: pre-commit run --all-files
+      - run: make ingest
+      - run: make features
+      - run: make global-model
+      - run: make evaluate
+      - run: python -m src.models.register --min_improvement 0.05 --min_coverage 0.80 --mlflow 0 --model_name demand_forecaster
+      - run: make monitor
+      - run: make readme
+      - run: make data-validate
       - run: pytest -q

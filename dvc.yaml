@@ -7,6 +7,49 @@ stages:
     outs:
     - data/processed
 
+  features:
+    cmd: python -m src.data.features
+    deps:
+    - src/data/features.py
+    - src/data/schemas.py
+    - data/processed/train.parquet
+    outs:
+    - data/processed/features.parquet
+
+  baseline:
+    cmd: python -m src.models.baseline --horizon 14
+    deps:
+    - src/models/baseline.py
+    - data/processed/train.parquet
+    outs:
+    - artifacts/baseline/predictions.parquet
+    - artifacts/baseline/metrics.json
+
+  global_model:
+    cmd: python -m src.models.global_model --quantiles 0.1,0.5,0.9 --test_size 0.1 --model lightgbm
+    deps:
+    - src/models/global_model.py
+    - data/processed/features.parquet
+    outs:
+    - artifacts/global_model
+
+  evaluate:
+    cmd: python -m src.models.evaluate
+    deps:
+    - src/models/evaluate.py
+    - artifacts/global_model/metrics.json
+    outs:
+    - artifacts/eval/report.json
+    - artifacts/eval/report.md
+
+  register:
+    cmd: python -m src.models.register --min_improvement 0.05 --min_coverage 0.80 --mlflow 0 --model_name demand_forecaster
+    deps:
+    - src/models/register.py
+    - artifacts/eval/report.json
+    outs:
+    - artifacts/eval/promotion.json
+
   train:
     cmd: python src/models/train.py
     deps:

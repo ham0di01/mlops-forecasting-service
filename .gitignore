@@ -1,0 +1,17 @@
+# Virtual environments
+.venv/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Build artifacts
+artifacts/
+data/processed/
+mlruns/
+
+# pytest cache
+.pytest_cache/
+
+# OS noise
+.DS_Store
