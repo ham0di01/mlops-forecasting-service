@@ -22,12 +22,12 @@ jobs:
         run: pre-commit run --all-files || true  # Allow non-critical linting failures
       - name: Run pipeline
         run: |
-          make ingest
-          make features
-          make global-model
-          make evaluate
+          make ingest PYTHON=python
+          make features PYTHON=python
+          make global-model PYTHON=python
+          make evaluate PYTHON=python
           python -m src.models.register --min_improvement 0.05 --min_coverage 0.80 --mlflow 0 --model_name demand_forecaster
-          make monitor
-          make readme
+          make monitor PYTHON=python
+          make readme PYTHON=python
       - name: Run tests
         run: pytest -q --tb=short
