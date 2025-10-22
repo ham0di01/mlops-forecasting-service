@@ -23,6 +23,9 @@ This project showcases how to productionise a spare-parts demand forecasting wor
 - **FastAPI service** returning point + interval forecasts per SKU (and warehouse if present).
 - **Monitoring loop** measuring drift (PSI), recent performance, and API latency, with HTML/Markdown reports and README auto-updates.
 
+### Dataset
+This project uses the sales dataset from Brown, Sabrina (2024), "Sales Dataset", Mendeley Data, V1, doi: 10.17632/sv3vg8g755.1. The dataset contains retail demand data for spare parts across multiple warehouses and is available at: https://data.mendeley.com/datasets/sv3vg8g755/1
+
 ## Solution Architecture
 ```
 Raw CSV → Ingest (schema harmonisation) → Processed parquet
