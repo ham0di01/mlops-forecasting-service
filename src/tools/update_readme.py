@@ -29,7 +29,7 @@ def _extract_metrics() -> Tuple[str, str, str]:
 
     smape_global = global_metrics.get("smape")
     coverage_global = global_metrics.get("coverage")
-    smape_baseline = baseline_metrics.get("smape")
+    smape_baseline = baseline_metrics.get("smape") if baseline_metrics else None
 
     def fmt(value, precision=4):
         if isinstance(value, (int, float)):
