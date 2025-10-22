@@ -24,6 +24,7 @@ jobs:
         run: |
           make ingest PYTHON=python
           make features PYTHON=python
+          make baseline PYTHON=python
           make global-model PYTHON=python
           make evaluate PYTHON=python
           python -m src.models.register --min_improvement 0.05 --min_coverage 0.80 --mlflow 0 --model_name demand_forecaster
