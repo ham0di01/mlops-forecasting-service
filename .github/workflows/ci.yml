@@ -10,24 +10,24 @@ jobs:
         with:
           python-version: "3.9"
       - name: Install dependencies
-    run: |
+      run: |
         python -m pip install --upgrade pip
         pip install -e .
       - name: Create required directories
-        run: |
-          mkdir -p data/processed artifacts
-      - name: Install test dependencies
-        run: pip install pytest pytest-cov httpx
+      run: |
+        mkdir -p data/processed artifacts
+    - name: Install test dependencies
+      run: pip install pytest pytest-cov httpx
       - name: Run pre-commit
-        run: pre-commit run --all-files || true  # Allow non-critical linting failures
-      - name: Run pipeline
-        run: |
-          make ingest
-          make features
-          make global-model
-          make evaluate
-          python -m src.models.register --min_improvement 0.05 --min_coverage 0.80 --mlflow 0 --model_name demand_forecaster
-          make monitor
-          make readme
-      - name: Run tests
-        run: pytest -q --tb=short
+      run: pre-commit run --all-files || true  # Allow non-critical linting failures
+    - name: Run pipeline
+      run: |
+        make ingest
+        make features
+        make global-model
+        make evaluate
+        python -m src.models.register --min_improvement 0.05 --min_coverage 0.80 --mlflow 0 --model_name demand_forecaster
+        make monitor
+        make readme
+    - name: Run tests
+      run: pytest -q --tb=short
