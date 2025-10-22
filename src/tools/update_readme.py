@@ -1,9 +1,11 @@
 from __future__ import annotations
 
 import json
+import os
 import time
+import subprocess
 from pathlib import Path
-from typing import Tuple
+from typing import Tuple, Dict, Any
 
 README = Path("README.md")
 EVAL_JSON = Path("artifacts/eval/report.json")
@@ -11,6 +13,39 @@ MON_SUMMARY = Path("artifacts/monitoring/summary.md")
 
 SECTION_START = "<!-- PROJECT-AT-A-GLANCE:START -->"
 SECTION_END = "<!-- PROJECT-AT-A-GLANCE:END -->"
+
+
+def get_user_repo() -> str:
+    """Get GitHub user and repository from remote origin."""
+    # Try to get from environment first (for CI)
+    if "GITHUB_REPOSITORY" in os.environ:
+        return os.environ["GITHUB_REPOSITORY"]
+    
+    # Fallback to git config
+    try:
+        result = subprocess.run(
+            ["git", "config", "--get", "remote.origin.url"],
+            capture_output=True,
+            text=True,
+            check=True
+        )
+        url = result.stdout.strip()
+        # Convert https://github.com/user/repo.git to user/repo
+        if "github.com" in url:
+            return url.split("github.com/")[1].replace(".git", "")
+    except (subprocess.CalledProcessError, IndexError, FileNotFoundError):
+        return "ham0di01/mlops-forecasting-service"  # Fallback
+    return ""
+
+
+def generate_dynamic_badges(user_repo: str) -> str:
+    """Generate dynamic badges that update in real-time."""
+    return (
+        f"![CI](https://img.shields.io/github/actions/workflow/status/{user_repo}/CI.yml?branch=main) "
+        f"![Python](https://img.shields.io/badge/Python-3.9-blue) "
+        f"![License](https://img.shields.io/badge/License-MIT-yellow) "
+        f"![Code size](https://img.shields.io/github/languages/code-size/{user_repo})"
+    )
 
 
 def _read(path: Path) -> str:
@@ -42,15 +77,20 @@ def _extract_metrics() -> Tuple[str, str, str]:
 def build_section() -> str:
     smape_g, cov_g, smape_b = _extract_metrics()
     timestamp = time.strftime("%Y-%m-%d %H:%M:%S")
+    
+    # Get user/repo for dynamic badges
+    user_repo = get_user_repo()
+    badges = generate_dynamic_badges(user_repo)
+    
+    # Enhanced monitoring with fallback
+    monitoring_file = Path("artifacts/monitoring/summary.md")
     monitoring_snippet = (
-        _read(MON_SUMMARY) or "_Run `make monitor` to generate monitoring data._"
+        _read(monitoring_file) or 
+        "_Run `make monitor` to generate monitoring data._"
     )
-
-    badges = (
-        "![CI](https://img.shields.io/badge/CI-passing-brightgreen) "
-        "![Python](https://img.shields.io/badge/Python-3.9-blue) "
-        "![License](https://img.shields.io/badge/License-MIT-yellow)"
-    )
+    
+    # Add performance status indicator
+    performance_status = "🟢 Good" if float(smape_g.replace("N/A", "1.0")) < 0.8 else "🟡 Needs Improvement"
 
     architecture = """```
 Data ingestion → Feature engineering → Baseline & Global models
@@ -61,22 +101,29 @@ Data ingestion → Feature engineering → Baseline & Global models
         "```bash\n"
         "make ingest\n"
         "make features\n"
+        "make baseline\n"
         "make global-model\n"
         "make evaluate\n"
         "make register\n"
-        "make serve\n"
+        "make monitor\n"
+        "make readme\n"
         "```"
     )
+
+    # Add dashboard link if monitoring HTML exists
+    dashboard_link = ""
+    if Path("artifacts/monitoring/report.html").exists():
+        dashboard_link = f"\n📊 **[View Monitoring Dashboard](https://{user_repo}.github.io/dashboard)**"
 
     lines = [
         SECTION_START,
         "## Project at a Glance",
         badges,
         "",
-        f"- **Global sMAPE**: {smape_g}",
+        f"- **Global sMAPE**: {smape_g} {performance_status}",
         f"- **PI Coverage (q0.1–q0.9)**: {cov_g}",
         f"- **Baseline sMAPE**: {smape_b}",
-        f"- **Last Updated**: {timestamp}",
+        f"- **Last Updated**: {timestamp}{dashboard_link}",
         "",
         "### Architecture Overview",
         architecture,

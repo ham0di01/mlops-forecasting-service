@@ -1,0 +1,55 @@
+name: Update README
+
+on:
+  push:
+    paths: ['artifacts/**']
+    branches: [main]
+  schedule:
+    # Run every 6 hours to keep badges and metrics fresh
+    - cron: '0 */6 * * *'
+  workflow_dispatch:  # Allow manual triggering
+
+jobs:
+  update-readme:
+    runs-on: ubuntu-latest
+    if: github.repository == 'ham0di01/mlops-forecasting-service'
+    
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.9"
+      
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e .
+      
+      - name: Update README
+        run: |
+          # Only update if artifacts exist, otherwise skip
+          if [ -d "artifacts" ]; then
+            python -m src.tools.update_readme
+            echo "README updated successfully"
+          else
+            echo "No artifacts found, skipping README update"
+            exit 0
+          fi
+      
+      - name: Commit and push changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          
+          # Only commit if README actually changed
+          if git diff --quiet README.md; then
+            echo "No changes to README"
+          else
+            git add README.md
+            git commit -m "🤖 Auto-update README with latest metrics"
+            git push
+            echo "README updated and pushed"
+          fi
