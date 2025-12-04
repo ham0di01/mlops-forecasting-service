@@ -147,13 +147,7 @@ mlops-forecasting-service/
 ```
 <!-- PROJECT-AT-A-GLANCE:START -->
 ## Project at a Glance
-![CI](https://img.shields.io/github/actions/workflow/status/ham0di01/mlops-forecasting-service/CI.yml?branch=main) ![Python](https://img.shields.io/badge/Python-3.9-blue) ![License](https://img.shields.io/badge/License-MIT-yellow) ![Code size](https://img.shields.io/github/languages/code-size/ham0di01/mlops-forecasting-service)
-
-- **Global sMAPE**: 0.7562 🟢 Good
-- **PI Coverage (q0.1–q0.9)**: 0.872
-- **Baseline sMAPE**: 0.9891
-- **Last Updated**: 2025-10-22 15:47:24
-
+![CI](https://img.shields.io/github/actions/workflow/status/ham0di01/mlops-forecasting-service/CI.yml?branch=main) ![Python](https://img.shields.io/badge/Python-3.9-blue) ![License](https://img.shields.io/badge/License-MIT-yellow) ![Code size](https://img.shields.io/github/languages/code-size/ham0di01/mlops-forecasting-service)- **Last Updated**: 2025-12-04 15:12:11
 ### Architecture Overview
 ```
 Data ingestion → Feature engineering → Baseline & Global models
@@ -173,20 +167,7 @@ make readme
 ```
 
 ### Monitoring Snapshot
-# Monitoring Summary
-- Generated: 2025-10-22 15:46:29
-## Drift
-- y: PSI 0.0015 (OK)
-- lag_7: PSI 0.0038 (OK)
-- roll7_mean: PSI 0.0212 (OK)
-## Performance
-- sMAPE_recent: 0.7539
-- Coverage_recent: 0.8615
-- Rows: 1,719.00
-## Latency
-- avg_ms: 45.2
-- p95_ms: 89.7
-
+None
 <!-- PROJECT-AT-A-GLANCE:END -->
 
 ## License

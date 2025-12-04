@@ -1,0 +1,36 @@
+<!-- PROJECT-AT-A-GLANCE:START -->
+## Project at a Glance
+{{ badges }}
+
+{%- if metrics.global.smape %}
+- **Global sMAPE**: {{ "%.4f"|format(metrics.global.smape) }} {{ performance_status }}
+{%- endif %}
+{%- if metrics.global.coverage %}
+- **PI Coverage (q0.1–q0.9)**: {{ "%.3f"|format(metrics.global.coverage) }}
+{%- endif %}
+{%- if metrics.baseline.smape %}
+- **Baseline sMAPE**: {{ "%.4f"|format(metrics.baseline.smape) }}
+{%- endif %}
+- **Last Updated**: {{ timestamp }}{%- if dashboard_link %}{{ dashboard_link }}{%- endif %}
+
+### Architecture Overview
+```
+Data ingestion → Feature engineering → Baseline & Global models
+          ↘ Evaluate/Register → Serve API → Monitoring
+```
+
+### Quickstart Commands
+```bash
+make ingest
+make features
+make baseline
+make global-model
+make evaluate
+make register
+make monitor
+make readme
+```
+
+### Monitoring Snapshot
+{{ monitoring_content | default("_Run `make monitor` to generate monitoring data._") }}
+<!-- PROJECT-AT-A-GLANCE:END -->

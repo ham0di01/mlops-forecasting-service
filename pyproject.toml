@@ -37,6 +37,7 @@ dependencies = [
     "flake8",
     "bandit",
     "pre-commit",
+    "jinja2",
 ]
 
 [project.optional-dependencies]
