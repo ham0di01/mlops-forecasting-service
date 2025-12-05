@@ -15,6 +15,3 @@ mlruns/
 
 # OS noise
 .DS_Store
-
-# Claude AI context
-claude.md
