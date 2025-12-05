@@ -114,7 +114,7 @@ class ReadmeDataCollector:
     def _generate_badges(self, user_repo: str) -> str:
         """Generate dynamic badges that update in real-time."""
         return (
-            f"![CI](https://img.shields.io/github/actions/workflow/status/{user_repo}/CI.yml?branch=main) "
+            f"![CI](https://img.shields.io/github/actions/workflow/status/{user_repo}/ci.yml?branch=main) "
             f"![Python](https://img.shields.io/badge/Python-3.9-blue) "
             f"![License](https://img.shields.io/badge/License-MIT-yellow) "
             f"![Code size](https://img.shields.io/github/languages/code-size/{user_repo})"

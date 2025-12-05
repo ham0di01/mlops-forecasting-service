@@ -147,7 +147,7 @@ mlops-forecasting-service/
 ```
 <!-- PROJECT-AT-A-GLANCE:START -->
 ## Project at a Glance
-![CI](https://img.shields.io/github/actions/workflow/status/ham0di01/mlops-forecasting-service/CI.yml?branch=main) ![Python](https://img.shields.io/badge/Python-3.9-blue) ![License](https://img.shields.io/badge/License-MIT-yellow) ![Code size](https://img.shields.io/github/languages/code-size/ham0di01/mlops-forecasting-service)- **Last Updated**: 2025-12-04 15:12:11
+![CI](https://img.shields.io/github/actions/workflow/status/ham0di01/mlops-forecasting-service/ci.yml?branch=main) ![Python](https://img.shields.io/badge/Python-3.9-blue) ![License](https://img.shields.io/badge/License-MIT-yellow) ![Code size](https://img.shields.io/github/languages/code-size/ham0di01/mlops-forecasting-service)- **Last Updated**: 2025-12-05 15:33:04
 ### Architecture Overview
 ```
 Data ingestion → Feature engineering → Baseline & Global models
